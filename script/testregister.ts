@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 async function testRegister() {
   const res = await fetch('http://localhost:3000/api/auth/register', {
     method: 'POST',

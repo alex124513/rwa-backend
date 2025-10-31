@@ -1,0 +1,22 @@
+{
+  "projectName": "枋山愛文芒果抗颱網室A廠",
+  "cropType": "芒果",
+  "location": "屏東縣枋山鄉",
+  "area": 2.5,
+  "description": "本專案採用抗颱網室技術，預計種植愛文芒果1000株，採用有機栽培方式，預計年產量10,000公斤。採用滴灌系統節水，使用有機肥料減少環境負擔。",
+  "startDate": "2025-02-01",
+  "endDate": "2025-06-30",
+  "expectedYield": 10000,
+  "unitPrice": 120,
+  "hasInsurance": true,
+  "insuranceCompany": "富邦產險",
+  "sustainability": "採用減少農藥使用50%、節水灌溉技術、有機肥料等環境友善措施。預計每年減少碳排放量約5噸。",
+  "coverImage": "https://media.discordapp.net/attachments/338606954379476992/1433369723965407253/1758540304940.jpg",
+  "initCost": 1150,
+  "annualIncome": 312,
+  "investorPercent": 20,
+  "interest": 5,
+  "premium": 33,
+  "farmer_id": "farmer001"
+}
+

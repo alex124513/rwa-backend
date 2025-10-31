@@ -13,7 +13,7 @@ const TWDT_ABI = [
 ] as const;
 
 /**
- * GET /api/con/twdt/balance?address=0x...
+ * GET /api/contract/twdt/balance?address=0x...
  * 查詢 TWDT 餘額
  */
 export async function GET(request: NextRequest) {

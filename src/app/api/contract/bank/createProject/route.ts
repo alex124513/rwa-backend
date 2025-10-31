@@ -24,7 +24,7 @@ const BANK_FACTORY_ABI = [
 ] as const;
 
 /**
- * POST /api/con/bank/createProject
+ * POST /api/contract/bank/createProject
  * Admin 建立新專案
  */
 export async function POST(request: NextRequest) {

@@ -7,18 +7,18 @@
 - ✅ 建立區塊鏈工具類別 (`src/lib/blockchain.ts`)
 - ✅ 環境變數範本準備
 
-### 2. TWDT 代幣 API (`/api/con/twdt/`)
+### 2. TWDT 代幣 API (`/api/contract/twdt/`)
 - ✅ `POST /mint` - 鑄造代幣
 - ✅ `GET /balance?address=0x...` - 查詢餘額
 
-### 3. BankFactory API (`/api/con/bank/`)
+### 3. BankFactory API (`/api/contract/bank/`)
 - ✅ `POST /deposit` - 存入資金
 - ✅ `POST /createProject` - 建立專案
 - ✅ `POST /setStatus` - 設定專案狀態
 - ✅ `GET /projects` - 取得所有專案清單
 - ✅ `GET /balance` - 查詢工廠餘額
 
-### 4. SafeHarvestNFT API (`/api/con/project/`)
+### 4. SafeHarvestNFT API (`/api/contract/project/`)
 - ✅ `POST /calculator` - 年度結算
 - ✅ `POST /withdraw` - 提領資金
 - ✅ `POST /reset` - 重置 NFT
@@ -32,7 +32,7 @@
 ## 📊 API 路由總覽
 
 ```
-/api/con/
+/api/contract/
 ├── twdt/
 │   ├── GET    /balance     查詢餘額
 │   └── POST   /mint        鑄造代幣
@@ -58,22 +58,22 @@
 2. **BankFactory 部署**: 手動部署或使用部署腳本
 
 ### 初始設定
-1. **鑄造 TWDT**: `POST /api/con/twdt/mint`
-2. **存入工廠資金**: `POST /api/con/bank/deposit`
+1. **鑄造 TWDT**: `POST /api/contract/twdt/mint`
+2. **存入工廠資金**: `POST /api/contract/bank/deposit`
 
 ### 專案管理
-1. **建立專案**: `POST /api/con/bank/createProject`
-2. **查詢專案列表**: `GET /api/con/bank/projects`
-3. **查詢工廠餘額**: `GET /api/con/bank/balance`
+1. **建立專案**: `POST /api/contract/bank/createProject`
+2. **查詢專案列表**: `GET /api/contract/bank/projects`
+3. **查詢工廠餘額**: `GET /api/contract/bank/balance`
 
 ### 專案操作
-1. **年度結算**: `POST /api/con/project/calculator`
-2. **提領資金**: `POST /api/con/project/withdraw`
-3. **設定狀態**: `POST /api/con/bank/setStatus`
-4. **查詢資料**: `GET /api/con/project/data`
+1. **年度結算**: `POST /api/contract/project/calculator`
+2. **提領資金**: `POST /api/contract/project/withdraw`
+3. **設定狀態**: `POST /api/contract/bank/setStatus`
+4. **查詢資料**: `GET /api/contract/project/data`
 
 ### 緊急操作
-1. **重置 NFT**: `POST /api/con/project/reset` ⚠️
+1. **重置 NFT**: `POST /api/contract/project/reset` ⚠️
 
 ---
 

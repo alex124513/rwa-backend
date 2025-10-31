@@ -24,7 +24,7 @@ ADMIN_PRIVATE_KEY=0xYourAdminPrivateKey
 
 ### 1. 鑄造代幣
 
-**POST** `/api/con/twdt/mint`
+**POST** `/api/contract/twdt/mint`
 
 **Description**: Admin 鑄造 TWDT 代幣給指定地址
 
@@ -46,7 +46,7 @@ ADMIN_PRIVATE_KEY=0xYourAdminPrivateKey
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/twdt/mint \
+curl -X POST http://localhost:3000/api/contract/twdt/mint \
   -H "Content-Type: application/json" \
   -d '{"to": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb", "amount": 1000}'
 ```
@@ -55,7 +55,7 @@ curl -X POST http://localhost:3000/api/con/twdt/mint \
 
 ### 2. 查詢餘額
 
-**GET** `/api/con/twdt/balance?address=0x...`
+**GET** `/api/contract/twdt/balance?address=0x...`
 
 **Description**: 查詢指定地址的 TWDT 餘額
 
@@ -73,7 +73,7 @@ curl -X POST http://localhost:3000/api/con/twdt/mint \
 
 **Example**:
 ```bash
-curl "http://localhost:3000/api/con/twdt/balance?address=0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+curl "http://localhost:3000/api/contract/twdt/balance?address=0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
 ```
 
 ---
@@ -82,7 +82,7 @@ curl "http://localhost:3000/api/con/twdt/balance?address=0x742d35Cc6634C0532925a
 
 ### 1. 存入資金
 
-**POST** `/api/con/bank/deposit`
+**POST** `/api/contract/bank/deposit`
 
 **Description**: 將 TWDT 存入工廠合約
 
@@ -103,7 +103,7 @@ curl "http://localhost:3000/api/con/twdt/balance?address=0x742d35Cc6634C0532925a
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/bank/deposit \
+curl -X POST http://localhost:3000/api/contract/bank/deposit \
   -H "Content-Type: application/json" \
   -d '{"amount": 9000}'
 ```
@@ -114,7 +114,7 @@ curl -X POST http://localhost:3000/api/con/bank/deposit \
 
 ### 2. 建立專案
 
-**POST** `/api/con/bank/createProject`
+**POST** `/api/contract/bank/createProject`
 
 **Description**: 建立新的 SafeHarvest NFT 專案
 
@@ -156,7 +156,7 @@ curl -X POST http://localhost:3000/api/con/bank/deposit \
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/bank/createProject \
+curl -X POST http://localhost:3000/api/contract/bank/createProject \
   -H "Content-Type: application/json" \
   -d '{
     "name": "枋山愛文芒果",
@@ -180,7 +180,7 @@ curl -X POST http://localhost:3000/api/con/bank/createProject \
 
 ### 3. 設定專案狀態
 
-**POST** `/api/con/bank/setStatus`
+**POST** `/api/contract/bank/setStatus`
 
 **Description**: 設定專案狀態
 
@@ -207,7 +207,7 @@ curl -X POST http://localhost:3000/api/con/bank/createProject \
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/bank/setStatus \
+curl -X POST http://localhost:3000/api/contract/bank/setStatus \
   -H "Content-Type: application/json" \
   -d '{"project": "0xProjectAddress", "status": 2}'
 ```
@@ -218,7 +218,7 @@ curl -X POST http://localhost:3000/api/con/bank/setStatus \
 
 ### 1. 年度結算
 
-**POST** `/api/con/project/calculator`
+**POST** `/api/contract/project/calculator`
 
 **Description**: 觸發年度收益結算，分配分紅給投資人
 
@@ -239,7 +239,7 @@ curl -X POST http://localhost:3000/api/con/bank/setStatus \
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/project/calculator \
+curl -X POST http://localhost:3000/api/contract/project/calculator \
   -H "Content-Type: application/json" \
   -d '{"projectAddress": "0xProjectAddress"}'
 ```
@@ -252,7 +252,7 @@ curl -X POST http://localhost:3000/api/con/project/calculator \
 
 ### 2. 提領專案資金
 
-**POST** `/api/con/project/withdraw`
+**POST** `/api/contract/project/withdraw`
 
 **Description**: 從專案合約提領資金
 
@@ -275,7 +275,7 @@ curl -X POST http://localhost:3000/api/con/project/calculator \
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/project/withdraw \
+curl -X POST http://localhost:3000/api/contract/project/withdraw \
   -H "Content-Type: application/json" \
   -d '{
     "projectAddress": "0xProjectAddress",
@@ -292,7 +292,7 @@ curl -X POST http://localhost:3000/api/con/project/withdraw \
 
 ### 3. 重置 NFT
 
-**POST** `/api/con/project/reset`
+**POST** `/api/contract/project/reset`
 
 **Description**: 清空所有 NFT 並重新開始（危險操作）
 
@@ -313,7 +313,7 @@ curl -X POST http://localhost:3000/api/con/project/withdraw \
 
 **Example**:
 ```bash
-curl -X POST http://localhost:3000/api/con/project/reset \
+curl -X POST http://localhost:3000/api/contract/project/reset \
   -H "Content-Type: application/json" \
   -d '{"projectAddress": "0xProjectAddress"}'
 ```
@@ -327,7 +327,7 @@ curl -X POST http://localhost:3000/api/con/project/reset \
 
 ### 4. 查詢專案資料
 
-**GET** `/api/con/project/data?projectAddress=0x...`
+**GET** `/api/contract/project/data?projectAddress=0x...`
 
 **Description**: 查詢專案完整資料
 
@@ -363,7 +363,7 @@ curl -X POST http://localhost:3000/api/con/project/reset \
 
 **Example**:
 ```bash
-curl "http://localhost:3000/api/con/project/data?projectAddress=0xProjectAddress"
+curl "http://localhost:3000/api/contract/project/data?projectAddress=0xProjectAddress"
 ```
 
 ---
@@ -393,12 +393,12 @@ curl "http://localhost:3000/api/con/project/data?projectAddress=0xProjectAddress
 
 ```bash
 # 1. 先存入資金到工廠
-curl -X POST http://localhost:3000/api/con/bank/deposit \
+curl -X POST http://localhost:3000/api/contract/bank/deposit \
   -H "Content-Type: application/json" \
   -d '{"amount": 45000}'
 
 # 2. 建立專案 (150 NFT × 100 TWDT × 3 = 45,000 TWDT)
-curl -X POST http://localhost:3000/api/con/bank/createProject \
+curl -X POST http://localhost:3000/api/contract/bank/createProject \
   -H "Content-Type: application/json" \
   -d '{
     "name": "枋山愛文芒果",
@@ -414,15 +414,15 @@ curl -X POST http://localhost:3000/api/con/bank/createProject \
   }'
 
 # 3. 查詢專案資料
-curl "http://localhost:3000/api/con/project/data?projectAddress=0xDeployedProject"
+curl "http://localhost:3000/api/contract/project/data?projectAddress=0xDeployedProject"
 
 # 4. 等待所有 NFT 賣出後，觸發年度結算
-curl -X POST http://localhost:3000/api/con/project/calculator \
+curl -X POST http://localhost:3000/api/contract/project/calculator \
   -H "Content-Type: application/json" \
   -d '{"projectAddress": "0xProjectAddress"}'
 
 # 5. 查詢更新後的專案資料
-curl "http://localhost:3000/api/con/project/data?projectAddress=0xProjectAddress"
+curl "http://localhost:3000/api/contract/project/data?projectAddress=0xProjectAddress"
 ```
 
 ---

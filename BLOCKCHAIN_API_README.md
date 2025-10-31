@@ -60,18 +60,18 @@ npm run dev
 
 ## 🔗 已建立的 API
 
-### TWDT API (`/api/con/twdt/`)
+### TWDT API (`/api/contract/twdt/`)
 - ✅ `GET /balance` - 查詢餘額
 - ✅ `POST /mint` - 鑄造代幣
 
-### BankFactory API (`/api/con/bank/`)
+### BankFactory API (`/api/contract/bank/`)
 - ✅ `GET /balance` - 查詢工廠餘額
 - ✅ `GET /projects` - 取得所有專案
 - ✅ `POST /deposit` - 存入資金
 - ✅ `POST /createProject` - 建立專案
 - ✅ `POST /setStatus` - 設定專案狀態
 
-### SafeHarvestNFT API (`/api/con/project/`)
+### SafeHarvestNFT API (`/api/contract/project/`)
 - ✅ `GET /data` - 查詢專案資料
 - ✅ `POST /calculator` - 年度結算
 - ✅ `POST /withdraw` - 提領資金
@@ -85,17 +85,17 @@ npm run dev
 
 ```bash
 # 1. 鑄造 TWDT 給 admin
-curl -X POST http://localhost:3000/api/con/twdt/mint \
+curl -X POST http://localhost:3000/api/contract/twdt/mint \
   -H "Content-Type: application/json" \
   -d '{"to": "0xAdminAddress", "amount": 100000}'
 
 # 2. 存入資金到工廠
-curl -X POST http://localhost:3000/api/con/bank/deposit \
+curl -X POST http://localhost:3000/api/contract/bank/deposit \
   -H "Content-Type: application/json" \
   -d '{"amount": 45000}'
 
 # 3. 建立專案
-curl -X POST http://localhost:3000/api/con/bank/createProject \
+curl -X POST http://localhost:3000/api/contract/bank/createProject \
   -H "Content-Type: application/json" \
   -d '{
     "name": "枋山愛文芒果",
@@ -111,7 +111,7 @@ curl -X POST http://localhost:3000/api/con/bank/createProject \
   }'
 
 # 4. 年度結算
-curl -X POST http://localhost:3000/api/con/project/calculator \
+curl -X POST http://localhost:3000/api/contract/project/calculator \
   -H "Content-Type: application/json" \
   -d '{"projectAddress": "0xProjectAddress"}'
 ```

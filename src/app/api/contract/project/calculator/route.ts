@@ -13,7 +13,7 @@ const PROJECT_ABI = [
 ] as const;
 
 /**
- * POST /api/con/project/calculator
+ * POST /api/contract/project/calculator
  * Admin 觸發年度結算 (SafeHarvestCalculator)
  */
 export async function POST(request: NextRequest) {

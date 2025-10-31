@@ -32,7 +32,7 @@ const PROJECT_ABI = [
 ] as const;
 
 /**
- * GET /api/con/project/data?projectAddress=0x...
+ * GET /api/contract/project/data?projectAddress=0x...
  * 查詢專案完整資料
  */
 export async function GET(request: NextRequest) {

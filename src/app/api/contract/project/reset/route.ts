@@ -4,11 +4,8 @@ import { walletClient } from '@/lib/blockchain';
 // SafeHarvestNFT ABI
 const PROJECT_ABI = [
   {
-    inputs: [
-      { name: 'to', type: 'address' },
-      { name: 'amount', type: 'uint256' },
-    ],
-    name: 'withdrawFunds',
+    inputs: [],
+    name: 'resetNFTs',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -16,35 +13,33 @@ const PROJECT_ABI = [
 ] as const;
 
 /**
- * POST /api/con/project/withdraw
- * Admin 提領專案資金
+ * POST /api/contract/project/reset
+ * Admin 重置 NFT（清空所有 NFT 並重新開始）
+ * ⚠️ 危險操作：會銷毀所有現有 NFT
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { projectAddress, to, amount } = body;
+    const { projectAddress } = body;
 
-    if (!projectAddress || !to || !amount) {
+    if (!projectAddress) {
       return NextResponse.json(
-        { error: 'Missing required fields: projectAddress, to, amount' },
+        { error: 'Missing required field: projectAddress' },
         { status: 400 }
       );
     }
 
-    // Convert amount to wei (6 decimals)
-    const amountWei = BigInt(amount) * BigInt(10 ** 6);
-
-    // Call withdrawFunds
+    // Call resetNFTs
     const hash = await walletClient.writeContract({
       address: projectAddress as `0x${string}`,
       abi: PROJECT_ABI,
-      functionName: 'withdrawFunds',
-      args: [to as `0x${string}`, amountWei],
+      functionName: 'resetNFTs',
+      args: [],
     });
 
     return NextResponse.json({ ok: true, txHash: hash });
   } catch (error: any) {
-    console.error('[Project Withdraw] error:', error);
+    console.error('[Project Reset] error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

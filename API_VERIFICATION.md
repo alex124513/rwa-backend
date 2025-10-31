@@ -13,27 +13,27 @@
 
 | API | 路徑 | 方法 | 狀態 |
 |-----|------|------|-----|
-| 鑄造代幣 | `/api/con/twdt/mint` | POST | ✅ |
-| 查詢餘額 | `/api/con/twdt/balance` | GET | ✅ |
+| 鑄造代幣 | `/api/contract/twdt/mint` | POST | ✅ |
+| 查詢餘額 | `/api/contract/twdt/balance` | GET | ✅ |
 
 ### BankFactory API (5/5)
 
 | API | 路徑 | 方法 | 狀態 |
 |-----|------|------|-----|
-| 存入資金 | `/api/con/bank/deposit` | POST | ✅ |
-| 建立專案 | `/api/con/bank/createProject` | POST | ✅ |
-| 設定狀態 | `/api/con/bank/setStatus` | POST | ✅ |
-| 所有專案 | `/api/con/bank/projects` | GET | ✅ |
-| 工廠餘額 | `/api/con/bank/balance` | GET | ✅ |
+| 存入資金 | `/api/contract/bank/deposit` | POST | ✅ |
+| 建立專案 | `/api/contract/bank/createProject` | POST | ✅ |
+| 設定狀態 | `/api/contract/bank/setStatus` | POST | ✅ |
+| 所有專案 | `/api/contract/bank/projects` | GET | ✅ |
+| 工廠餘額 | `/api/contract/bank/balance` | GET | ✅ |
 
 ### SafeHarvestNFT API (4/4)
 
 | API | 路徑 | 方法 | 狀態 |
 |-----|------|------|-----|
-| 年度結算 | `/api/con/project/calculator` | POST | ✅ |
-| 提領資金 | `/api/con/project/withdraw` | POST | ✅ |
-| 重置 NFT | `/api/con/project/reset` | POST | ✅ |
-| 專案資料 | `/api/con/project/data` | GET | ✅ |
+| 年度結算 | `/api/contract/project/calculator` | POST | ✅ |
+| 提領資金 | `/api/contract/project/withdraw` | POST | ✅ |
+| 重置 NFT | `/api/contract/project/reset` | POST | ✅ |
+| 專案資料 | `/api/contract/project/data` | GET | ✅ |
 
 **總計**: 11 個 API，全部完成 ✅
 

@@ -16,7 +16,7 @@ const BANK_FACTORY_ABI = [
 ] as const;
 
 /**
- * POST /api/con/bank/setStatus
+ * POST /api/contract/bank/setStatus
  * Admin 設定專案狀態 (1=正常, 2=僅提領, 3=全面停止)
  */
 export async function POST(request: NextRequest) {

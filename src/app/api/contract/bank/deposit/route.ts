@@ -13,7 +13,7 @@ const BANK_FACTORY_ABI = [
 ] as const;
 
 /**
- * POST /api/con/bank/deposit
+ * POST /api/contract/bank/deposit
  * Admin 存入資金到工廠
  */
 export async function POST(request: NextRequest) {

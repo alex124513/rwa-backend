@@ -75,12 +75,12 @@ POST /api/projects/approve
 ```
 /api/projects/
 ├── submit    → 存入 MongoDB（待審核）
-├── approve   → 調用 /api/con/bank/createProject
+├── approve   → 調用 /api/contract/bank/createProject
 │              → 部署到鏈上
 │              → 更新資料庫
 └── pending   → 查詢待審核列表
 
-/api/con/bank/
+/api/contract/bank/
 ├── createProject → 建立並部署合約
 └── ... (其他 admin 功能)
 ```

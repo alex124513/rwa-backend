@@ -44,10 +44,10 @@ npm run dev
 
 ```bash
 # 查詢工廠餘額
-curl "http://localhost:3000/api/con/bank/balance"
+curl "http://localhost:3000/api/contract/bank/balance"
 
 # 查詢所有專案
-curl "http://localhost:3000/api/con/bank/projects"
+curl "http://localhost:3000/api/contract/bank/projects"
 ```
 
 ---
@@ -58,17 +58,17 @@ curl "http://localhost:3000/api/con/bank/projects"
 
 | 分類 | 路徑 | 方法 | 功能 |
 |------|------|------|------|
-| **TWDT** | `/api/con/twdt/mint` | POST | 鑄造代幣 |
-| | `/api/con/twdt/balance` | GET | 查詢餘額 |
-| **Bank** | `/api/con/bank/deposit` | POST | 存入資金 |
-| | `/api/con/bank/createProject` | POST | 建立專案 |
-| | `/api/con/bank/setStatus` | POST | 設定狀態 |
-| | `/api/con/bank/projects` | GET | 所有專案 |
-| | `/api/con/bank/balance` | GET | 工廠餘額 |
-| **Project** | `/api/con/project/calculator` | POST | 年度結算 |
-| | `/api/con/project/withdraw` | POST | 提領資金 |
-| | `/api/con/project/reset` | POST | 重置 NFT |
-| | `/api/con/project/data` | GET | 專案資料 |
+| **TWDT** | `/api/contract/twdt/mint` | POST | 鑄造代幣 |
+| | `/api/contract/twdt/balance` | GET | 查詢餘額 |
+| **Bank** | `/api/contract/bank/deposit` | POST | 存入資金 |
+| | `/api/contract/bank/createProject` | POST | 建立專案 |
+| | `/api/contract/bank/setStatus` | POST | 設定狀態 |
+| | `/api/contract/bank/projects` | GET | 所有專案 |
+| | `/api/contract/bank/balance` | GET | 工廠餘額 |
+| **Project** | `/api/contract/project/calculator` | POST | 年度結算 |
+| | `/api/contract/project/withdraw` | POST | 提領資金 |
+| | `/api/contract/project/reset` | POST | 重置 NFT |
+| | `/api/contract/project/data` | GET | 專案資料 |
 
 ---
 
@@ -81,7 +81,7 @@ curl "http://localhost:3000/api/con/bank/projects"
    - 從環境變數載入 admin 私鑰
    - 配置本地鏈（chain ID: 1337）
 
-2. **API Routes** (`src/app/api/con/`)
+2. **API Routes** (`src/app/api/contract/`)
    - 所有寫入操作使用 `walletClient`
    - 所有讀取操作使用 `publicClient`
    - 自動處理 decimals 轉換
@@ -107,7 +107,7 @@ Blockchain
 ### 1. 建立專案
 
 ```bash
-curl -X POST http://localhost:3000/api/con/bank/createProject \
+curl -X POST http://localhost:3000/api/contract/bank/createProject \
   -H "Content-Type: application/json" \
   -d '{
     "name": "枋山愛文芒果",
@@ -134,7 +134,7 @@ curl -X POST http://localhost:3000/api/con/bank/createProject \
 ### 2. 年度結算
 
 ```bash
-curl -X POST http://localhost:3000/api/con/project/calculator \
+curl -X POST http://localhost:3000/api/contract/project/calculator \
   -H "Content-Type: application/json" \
   -d '{
     "projectAddress": "0x75537828f2ce51be7289709686A69CbFDbB714F1"
@@ -144,7 +144,7 @@ curl -X POST http://localhost:3000/api/con/project/calculator \
 ### 3. 查詢專案資料
 
 ```bash
-curl "http://localhost:3000/api/con/project/data?projectAddress=0x75537828f2ce51be7289709686A69CbFDbB714F1"
+curl "http://localhost:3000/api/contract/project/data?projectAddress=0x75537828f2ce51be7289709686A69CbFDbB714F1"
 ```
 
 **回應**:

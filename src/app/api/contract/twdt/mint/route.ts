@@ -16,7 +16,7 @@ const TWDT_ABI = [
 ] as const;
 
 /**
- * POST /api/con/twdt/mint
+ * POST /api/contract/twdt/mint
  * Admin 鑄造 TWDT 代幣
  */
 export async function POST(request: NextRequest) {

@@ -31,6 +31,13 @@ interface ProjectSubmission {
   insuranceCompany?: string;
 }
 
+function genSymbol() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let symbol = '';
+  for(let i=0; i<3; i++) symbol += chars[Math.floor(Math.random()*26)];
+  return symbol;
+}
+
 /**
  * POST /api/projects/submit
  * 農夫提交新專案進行審核
@@ -59,6 +66,7 @@ export async function POST(request: NextRequest) {
     const projectData = {
       // 基本資訊
       title: body.projectName,
+      symbol: genSymbol(), // 自動產生三位英文符號
       description: body.description,
       crop_name: body.cropType,  // 使用 cropType 作為 crop_name
       crop_type: body.cropType,

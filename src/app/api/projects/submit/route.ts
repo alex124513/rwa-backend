@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
       annual_income: body.annualIncome || 0,            // 年度收益（萬）
       investor_share: body.investorPercent || 0,        // 投資人分潤%
       interest_rate: body.interest || 0,                // 利率%
-      annual_yield_rate: body.interest || 0,            // 年化收益率%（同利率）
+      annual_yield_rate: `${body.interest || 0}%`,      // 年化收益率（帶%符號的字串）
       premium_rate: body.premium || 0,                  // 溢酬%
       
       // 狀態資訊

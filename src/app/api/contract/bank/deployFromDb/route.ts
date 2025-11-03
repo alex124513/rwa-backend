@@ -28,9 +28,10 @@ const BANK_FACTORY_ABI = [
 ] as const;
 
 export async function POST(request: NextRequest) {
+  let projectId: string | undefined;
   try {
     const body = await request.json();
-    const { projectId } = body || {};
+    projectId = body?.projectId;
 
     if (!projectId) {
       return NextResponse.json({ error: 'Missing projectId' }, { status: 400 });
@@ -133,7 +134,11 @@ export async function POST(request: NextRequest) {
       factory: BANK_FACTORY_ADDRESS,
     });
 
-    // 寫入鏈上合約
+    // 檢查錢包餘額（debug 用）
+    const balance = await publicClient.getBalance({ address: walletClient.account.address });
+    console.log('[deployFromDb] wallet balance:', balance.toString(), 'wei');
+
+    // 寫入鏈上合約（加 gas 設定）
     const txHash = await walletClient.writeContract({
       address: BANK_FACTORY_ADDRESS as `0x${string}`,
       abi: BANK_FACTORY_ABI,
@@ -150,6 +155,7 @@ export async function POST(request: NextRequest) {
         BigInt(project.interest_rate),
         BigInt(project.premium_rate),
       ],
+      gas: BigInt(3000000),
     });
 
     // 等待交易完成
@@ -200,6 +206,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, txHash, contractAddress });
   } catch (error: any) {
     console.error('[deployFromDb] error:', error);
+    
+    // Rollback: 上鏈失敗，將 admin_agree 改回 false
+    try {
+      const client = new MongoClient(uri!);
+      await client.connect();
+      const db = client.db(dbName);
+      await db.collection('projects').updateOne(
+        { _id: new ObjectId(projectId) },
+        { $set: { admin_agree: false, updated_at: new Date() } }
+      );
+      await client.close();
+      console.log('[deployFromDb] rollback: set admin_agree = false');
+    } catch (rollbackError) {
+      console.error('[deployFromDb] rollback failed:', rollbackError);
+    }
+    
     return NextResponse.json({ error: error.message || 'server error' }, { status: 500 });
   }
 }

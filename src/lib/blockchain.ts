@@ -1,4 +1,5 @@
 import { createWalletClient, createPublicClient, http, type Address, defineChain } from 'viem';
+import { sepolia } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 
 const rpcUrl = process.env.RPC_URL || 'http://localhost:8545';
@@ -7,7 +8,9 @@ const defaultDevPrivateKey =
   '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
 
 const rawPrivateKey =
-  process.env.WALLET_KEY ?? (!isProduction ? defaultDevPrivateKey : undefined);
+  process.env['wallet_key'] ??
+  process.env.WALLET_KEY ??
+  (!isProduction ? defaultDevPrivateKey : undefined);
 
 if (!rawPrivateKey) {
   throw new Error('WALLET_KEY is not set in environment variables');
@@ -53,15 +56,18 @@ const localChain = defineChain({
 // Create account from private key
 const account = privateKeyToAccount(adminPrivateKey as `0x${string}`);
 
+// Choose chain (default local, set CHAIN=sepolia 以連到 Sepolia)
+const selectedChain = process.env.CHAIN === 'sepolia' ? sepolia : localChain;
+
 // Create public client for reading
 export const publicClient = createPublicClient({
-  chain: localChain,
+  chain: selectedChain,
   transport: http(rpcUrl),
 });
 
 // Create wallet client for writing (admin operations)
 export const walletClient = createWalletClient({
-  chain: localChain,
+  chain: selectedChain,
   account,
   transport: http(rpcUrl),
 });
@@ -71,5 +77,11 @@ export const adminAddress = account.address;
 
 // Contract addresses
 export const TWDT_ADDRESS = process.env.TWDT_ADDRESS as Address;
-export const BANK_FACTORY_ADDRESS = process.env.BANK_FACTORY_ADDRESS as Address;
+export const BANK_FACTORY_ADDRESS = (
+  process.env.BANK_FACTORY_ADDRESS || '0x5dCD05fCDFbAde2dAbF218B3356BC07174c5cE33'
+) as Address;
+
+if (process.env.NODE_ENV !== 'production') {
+  console.log('[blockchain] Using BANK_FACTORY_ADDRESS:', BANK_FACTORY_ADDRESS);
+}
 

@@ -26,6 +26,10 @@ interface ProjectSubmission {
   interest: number;           // 利率%
   premium: number;            // 溢酬%
   
+  // NFT 參數
+  totalNft: number;           // NFT 總數量
+  nftPrice: number;           // 單個 NFT 價格（萬）
+  
   // 其他資訊
   farmer_id?: string;
   insuranceCompany?: string;
@@ -52,6 +56,28 @@ export async function POST(request: NextRequest) {
         !body.description || !body.startDate || !body.endDate) {
       return NextResponse.json(
         { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // 驗證投資參數
+    if (!body.initCost || !body.annualIncome || !body.investorPercent || 
+      !body.interest || !body.premium) {
+    return NextResponse.json(
+      { error: 'Missing investment parameters (initCost, annualIncome, investorPercent, interest, premium)' },
+      { status: 400 }
+    );
+  }
+  
+  // 🏆 根據要求自動計算 NFT 參數
+  const calculatedNftPrice = 10;
+  const calculatedTotalNft = Math.ceil(body.initCost / calculatedNftPrice); // 向上取整確保覆蓋成本
+  const targetAmount = calculatedTotalNft * calculatedNftPrice;
+
+    // 驗證農夫地址格式（如果有提供）
+    if (body.farmer_id && !/^0x[0-9a-fA-F]{40}$/.test(body.farmer_id)) {
+      return NextResponse.json(
+        { error: 'Invalid farmer_id format (must be 0x + 40 hex characters)' },
         { status: 400 }
       );
     }
@@ -104,13 +130,13 @@ export async function POST(request: NextRequest) {
       funding_status: 'COMING_SOON',                    // 募資狀態：即將推出
       status_display: '審核中',                          // 前端顯示
       
-      // 預設數值
-      total_nft: 0,                                     // 待審核後設定
-      nft_price: 0,                                     // 待審核後設定
+      // NFT 參數（從前端接收）
+      total_nft: calculatedTotalNft,                         // NFT 總數量
+      nft_price: calculatedNftPrice,                         // NFT 單價（萬）
+      target_amount: targetAmount,     // 目標金額
       funded_amount: 0,
       funded_nft: 0,
       minted_nft: 0,
-      target_amount: 0,
       
       // 農夫資訊
       farmer_id: body.farmer_id || 'farmer001',         // 預設值

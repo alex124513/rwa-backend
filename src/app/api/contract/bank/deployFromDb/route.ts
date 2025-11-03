@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     const required = [
       'title',
       'symbol',
-      'farmer_address',
+      'farmer_id',
       'total_nft',
       'nft_price',
       'build_cost',
@@ -71,8 +71,8 @@ export async function POST(request: NextRequest) {
 
     // 額外格式檢查
     const isHexAddress = (addr: string) => /^0x[0-9a-fA-F]{40}$/.test(addr);
-    if (project.farmer_address && !isHexAddress(project.farmer_address)) {
-      issues.push('Invalid farmer_address (expect 0x + 40 hex)');
+    if (project.farmer_id && !isHexAddress(project.farmer_id)) {
+      issues.push('Invalid farmer_id (expect 0x + 40 hex)');
     }
     const mustBeInt = ['total_nft', 'nft_price', 'build_cost', 'annual_income'];
     for (const k of mustBeInt) {
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     const mappingPreview = [
       { db: 'title', value: project.title, contract: 'name' },
       { db: 'symbol', value: project.symbol, contract: 'symbol' },
-      { db: 'farmer_address', value: project.farmer_address, contract: 'farmer' },
+      { db: 'farmer_id', value: project.farmer_id, contract: 'farmer' },
       { db: 'total_nft', value: project.total_nft, contract: 'totalNFTs' },
       { db: 'nft_price', value: project.nft_price, contract: 'nftPrice(6decimals)' },
       { db: 'build_cost', value: project.build_cost, contract: 'buildCost(6decimals)' },
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
     console.log('[deployFromDb] createProject args:', {
       name: project.title,
       symbol: project.symbol,
-      farmer: project.farmer_address,
+      farmer: project.farmer_id,
       totalNFTs: String(project.total_nft),
       nftPriceWei: String(nftPriceWei),
       buildCostWei: String(buildCostWei),
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
       args: [
         project.title,
         project.symbol,
-        project.farmer_address as `0x${string}`,
+        project.farmer_id as `0x${string}`,
         BigInt(project.total_nft),
         nftPriceWei,
         buildCostWei,
@@ -187,6 +187,7 @@ export async function POST(request: NextRequest) {
           contract_address: contractAddress,
           factory_address: BANK_FACTORY_ADDRESS,
           payment_token_address: TWDT_ADDRESS || '',
+          farmer_address: project.farmer_id,
           deployment_tx_hash: txHash,
           deployed_at: new Date(),
           updated_at: new Date(),

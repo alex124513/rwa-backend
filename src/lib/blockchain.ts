@@ -62,14 +62,18 @@ const selectedChain = process.env.CHAIN === 'sepolia' ? sepolia : localChain;
 // Create public client for reading
 export const publicClient = createPublicClient({
   chain: selectedChain,
-  transport: http(rpcUrl),
+  transport: http(rpcUrl, {
+    timeout: 60_000,
+  }),
 });
 
 // Create wallet client for writing (admin operations)
 export const walletClient = createWalletClient({
   chain: selectedChain,
   account,
-  transport: http(rpcUrl),
+  transport: http(rpcUrl, {
+    timeout: 60_000,
+  }),
 });
 
 // Export admin address

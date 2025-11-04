@@ -10,14 +10,14 @@ const dbName = process.env.MONGODB_DB;
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   if (!uri || !dbName) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
   }
 
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json({ error: 'Missing id parameter' }, { status: 400 });

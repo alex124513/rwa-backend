@@ -5,11 +5,11 @@ import { publicClient } from '@/lib/blockchain';
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB;
 
-// SafeHarvestNFT ABI
+// SafeHarvestNFT ABI (分成兩個函數避免 stack too deep)
 const PROJECT_ABI = [
   {
     inputs: [],
-    name: 'getProjectData',
+    name: 'getProjectData1',
     outputs: [
       { name: 'currentStatus', type: 'uint8' },
       { name: 'projectOwner', type: 'address' },
@@ -22,13 +22,6 @@ const PROJECT_ABI = [
       { name: 'projectInvestorShare', type: 'uint256' },
       { name: 'projectInterestRate', type: 'uint256' },
       { name: 'projectPremiumRate', type: 'uint256' },
-      { name: 'projectCurrentYear', type: 'uint256' },
-      { name: 'projectCumulativePrincipal', type: 'uint256' },
-      { name: 'projectRemainingPrincipal', type: 'uint256' },
-      { name: 'projectBuybackPrice', type: 'uint256' },
-      { name: 'projectBuybackActive', type: 'bool' },
-      { name: 'projectPaymentToken', type: 'address' },
-      { name: 'projectFactory', type: 'address' },
     ],
     stateMutability: 'view',
     type: 'function',
@@ -84,11 +77,11 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // 從鏈上讀取專案資料
+      // 從鏈上讀取專案資料 (使用 getProjectData1)
       const data = await publicClient.readContract({
         address: contractAddress as `0x${string}`,
         abi: PROJECT_ABI,
-        functionName: 'getProjectData',
+        functionName: 'getProjectData1',
         args: [],
       });
 

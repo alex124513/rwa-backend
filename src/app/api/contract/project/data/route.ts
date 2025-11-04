@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { publicClient } from '@/lib/blockchain';
 
 // SafeHarvestNFT ABI
-const PROJECT_ABI = [
+// SafeHarvestNFT ABI（合約分成 getProjectData1 和 getProjectData2）
+const PROJECT_ABI_1 = [
   {
     inputs: [],
-    name: 'getProjectData',
+    name: 'getProjectData1',
     outputs: [
       { name: 'currentStatus', type: 'uint8' },
       { name: 'projectOwner', type: 'address' },
@@ -18,6 +19,17 @@ const PROJECT_ABI = [
       { name: 'projectInvestorShare', type: 'uint256' },
       { name: 'projectInterestRate', type: 'uint256' },
       { name: 'projectPremiumRate', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const;
+
+const PROJECT_ABI_2 = [
+  {
+    inputs: [],
+    name: 'getProjectData2',
+    outputs: [
       { name: 'projectCurrentYear', type: 'uint256' },
       { name: 'projectCumulativePrincipal', type: 'uint256' },
       { name: 'projectRemainingPrincipal', type: 'uint256' },
@@ -47,34 +59,44 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const data = await publicClient.readContract({
+    // 分兩次 call 合約取得完整資料
+    const data1 = await publicClient.readContract({
       address: projectAddress as `0x${string}`,
-      abi: PROJECT_ABI,
-      functionName: 'getProjectData',
+      abi: PROJECT_ABI_1,
+      functionName: 'getProjectData1',
+      args: [],
+    });
+
+    const data2 = await publicClient.readContract({
+      address: projectAddress as `0x${string}`,
+      abi: PROJECT_ABI_2,
+      functionName: 'getProjectData2',
       args: [],
     });
 
     // Format response with human readable values (6 decimals)
     const decimals = 6;
     const formattedData = {
-      currentStatus: data[0],
-      projectOwner: data[1],
-      projectFarmer: data[2],
-      nftTotalSupply: data[3].toString(),
-      nftMintedCount: data[4].toString(),
-      nftPricePerUnit: (data[5] / BigInt(10 ** decimals)).toString(),
-      projectBuildCost: (data[6] / BigInt(10 ** decimals)).toString(),
-      projectAnnualIncome: (data[7] / BigInt(10 ** decimals)).toString(),
-      projectInvestorShare: data[8].toString(),
-      projectInterestRate: data[9].toString(),
-      projectPremiumRate: data[10].toString(),
-      projectCurrentYear: data[11].toString(),
-      projectCumulativePrincipal: (data[12] / BigInt(10 ** decimals)).toString(),
-      projectRemainingPrincipal: (data[13] / BigInt(10 ** decimals)).toString(),
-      projectBuybackPrice: (data[14] / BigInt(10 ** decimals)).toString(),
-      projectBuybackActive: data[15],
-      projectPaymentToken: data[16],
-      projectFactory: data[17],
+      // From getProjectData1
+      currentStatus: data1[0],
+      projectOwner: data1[1],
+      projectFarmer: data1[2],
+      nftTotalSupply: data1[3].toString(),
+      nftMintedCount: data1[4].toString(),
+      nftPricePerUnit: (data1[5] / BigInt(10 ** decimals)).toString(),
+      projectBuildCost: (data1[6] / BigInt(10 ** decimals)).toString(),
+      projectAnnualIncome: (data1[7] / BigInt(10 ** decimals)).toString(),
+      projectInvestorShare: data1[8].toString(),
+      projectInterestRate: data1[9].toString(),
+      projectPremiumRate: data1[10].toString(),
+      // From getProjectData2
+      projectCurrentYear: data2[0].toString(),
+      projectCumulativePrincipal: (data2[1] / BigInt(10 ** decimals)).toString(),
+      projectRemainingPrincipal: (data2[2] / BigInt(10 ** decimals)).toString(),
+      projectBuybackPrice: (data2[3] / BigInt(10 ** decimals)).toString(),
+      projectBuybackActive: data2[4],
+      projectPaymentToken: data2[5],
+      projectFactory: data2[6],
     };
 
     return NextResponse.json({ ok: true, data: formattedData });

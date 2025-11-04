@@ -85,21 +85,39 @@ export async function POST(request: NextRequest) {
         args: [],
       });
 
-      // data[4] 是 nftMintedCount
+      // data[3] 是 nftTotalSupply, data[4] 是 nftMintedCount
+      const nftTotalSupply = Number(data[3]);
       const nftMintedCount = Number(data[4]);
       const fundedAmount = nftMintedCount * 10;
+
+      // 檢查是否已達標（全部 NFT 都賣晒）
+      const isFunded = nftMintedCount === nftTotalSupply && nftTotalSupply > 0;
+
+      console.log('[syncNftData] NFT Status:', {
+        totalSupply: nftTotalSupply,
+        minted: nftMintedCount,
+        isFunded,
+      });
+
+      // 準備更新欄位
+      const updateFields: any = {
+        minted_nft: nftMintedCount,
+        funded_nft: nftMintedCount,
+        funded_amount: fundedAmount,
+        updated_at: new Date(),
+      };
+
+      // 如果已達標，更新狀態
+      if (isFunded) {
+        updateFields.funding_status = 'CLOSED';
+        updateFields.status_display = '已達標';
+        console.log('[syncNftData] Project fully funded! Updating status to CLOSED');
+      }
 
       // 更新 DB
       const updateResult = await collection.updateOne(
         { _id: new ObjectId(projectId) },
-        {
-          $set: {
-            minted_nft: nftMintedCount,
-            funded_nft: nftMintedCount,
-            funded_amount: fundedAmount,
-            updated_at: new Date(),
-          },
-        }
+        { $set: updateFields }
       );
 
       if (updateResult.matchedCount === 0) {
@@ -110,8 +128,11 @@ export async function POST(request: NextRequest) {
         ok: true,
         projectId,
         contractAddress,
+        nftTotalSupply,
         nftMintedCount,
         fundedAmount,
+        isFunded,
+        status: isFunded ? 'CLOSED (已達標)' : 'OPENING',
         message: 'NFT data synced successfully',
       });
     } finally {
